@@ -1,0 +1,19 @@
+﻿body
+{
+	font-size: 12px;
+	/*background-color: #e7ecef;*/
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.TextBox
+{
+	font-size: 14px;
+	color: #003399;
+	font-family: "宋体";
+	font-style: normal;
+	/*background-color: #CCCC99;*/
+	border-color: #93BEE2 #93BEE2 #93BEE2 #93BEE2;
+	border: 1px #93BEE2 solid;
+}

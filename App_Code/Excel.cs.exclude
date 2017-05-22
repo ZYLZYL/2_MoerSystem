@@ -1,0 +1,100 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Web;
+using System.Reflection;
+using System.Data;
+/// <summary>
+/// Excel 的摘要说明
+/// </summary>
+public class Excel
+{
+    public Excel()
+    {
+        //
+        // TODO: 在此处添加构造函数逻辑
+        //
+    }
+    public void CreateExcel(DataSet ds,string typeid,string FileName) 
+
+   {
+
+   HttpResponse resp;
+
+   resp = Page.Response;
+
+   resp.ContentEncoding = System.Text.Encoding.GetEncoding("GB2312");
+
+   resp.AppendHeader("Content-Disposition", "attachment;filename=" + FileName);   
+
+   string colHeaders= "", ls_item="";
+
+   int i=0;
+
+   //定义表对象与行对像，同时用DataSet对其值进行初始化 
+
+   DataTable dt=ds.Tables[0];
+
+   DataRow[] myRow=dt.Select(""); 
+
+   // typeid=="1"时导出为EXCEL格式文件；typeid=="2"时导出为XML格式文件 
+
+   if(typeid=="1")
+
+    {
+
+    //取得数据表各列标题，各标题之间以"t分割，最后一个列标题后加回车符 
+
+    for(i=0;i     colHeaders+=dt.Columns[i].Caption.ToString()+"\t";
+
+    colHeaders +=dt.Columns[i].Caption.ToString() +"\n";   
+
+    //向HTTP输出流中写入取得的数据信息 
+
+    resp.Write(colHeaders); 
+
+    //逐行处理数据  
+
+    foreach(DataRow row in myRow)
+
+     {
+
+     //在当前行中，逐列获得数据，数据之间以"t分割，结束时加回车符"n
+
+     for(i=0;i      ls_item +=row[i].ToString() + ""t";     
+
+     ls_item += row[i].ToString() +""n";
+
+     //当前行数据写入HTTP输出流，并且置空ls_item以便下行数据    
+
+     resp.Write(ls_item);
+
+     ls_item="";
+
+    }
+
+   }
+
+   else 
+
+    {
+
+    if(typeid=="2")
+
+     { 
+
+     //从DataSet中直接导出XML数据并且写到HTTP输出流中 
+
+     resp.Write(ds.GetXml());
+
+    }    
+
+   }
+
+   //写缓冲区中的数据到HTTP头文件中 
+
+   resp.End();
+
+  }
+
+
+}
